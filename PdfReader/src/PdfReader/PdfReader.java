@@ -11,18 +11,19 @@ import org.apache.pdfbox.text.PDFTextStripper;
 
 public class PdfReader {
 	
-	public void readPdf(String file) throws Exception
+	public void readPdf(File pdfFile) throws Exception
 	{
-		File pdfFile = new File(file);
 		String encoding = "UTF-8";
 		int startPage = 1;    
 		int endPage = Integer.MAX_VALUE;
 		PDDocument document = PDDocument.load(pdfFile);    
 		String pdfFileName = pdfFile.getName();
 		String outfilename = null;
+		String outputdir = "D:/workspace/PdfReader/outputdir";
 		if(pdfFileName.length() > 4)
 		{
-			outfilename = pdfFileName.substring(0, pdfFileName.length() - 4)  + ".txt";   
+			outfilename = outputdir +'/'+ pdfFileName.substring(0, pdfFileName.length() - 4)  + ".txt";   
+			System.out.println(outfilename);
 		}
 		Writer outputWriter = new OutputStreamWriter(new FileOutputStream(outfilename), encoding);    
 		PDFTextStripper stripper = new PDFTextStripper();  	
@@ -41,18 +42,18 @@ public class PdfReader {
 		
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		PdfReader pdfReader = new PdfReader();
-		String fileName = "D:/workspace/PdfReader/Airtel Ghana.pdf";
-		try {
-			pdfReader.readPdf(fileName);
-			System.out.print("ÒÑÍê³É£¡");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		File pdfDir = new File("D:/workspace/PdfReader/pdfdir");
+		if(pdfDir.isDirectory())
+		{
+			File[] pdfFile = pdfDir.listFiles();
+			for(File subfile : pdfFile)
+			{
+				System.out.println(subfile.getAbsolutePath());
+				pdfReader.readPdf(subfile);
+			}
 		}
-
 	}
-
 }
