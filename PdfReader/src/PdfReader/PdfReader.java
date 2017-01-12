@@ -39,7 +39,6 @@ public class PdfReader {
 		{      
 			document.close();    
 		}    
-		
 	}
 
 	public static void main(String[] args) throws Exception {
